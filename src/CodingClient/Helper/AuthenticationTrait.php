@@ -1,7 +1,6 @@
 <?php
 namespace Fwolf\Client\Coding\Helper;
 
-use Fwlib\Net\Curl;
 use Fwolf\Client\Coding\Exception\LoginFailException;
 
 /**
