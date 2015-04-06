@@ -3,6 +3,7 @@ namespace Fwolf\Client\Coding;
 
 use Fwolf\Client\Coding\Helper\AuthenticationTrait;
 use Fwolf\Client\Coding\Helper\CurlAwareTrait;
+use Fwolf\Client\Coding\Helper\DeviceTrait;
 
 /**
  * Coding
@@ -16,6 +17,7 @@ class Coding
 {
     use AuthenticationTrait;
     use CurlAwareTrait;
+    use DeviceTrait;
 
 
     /**
