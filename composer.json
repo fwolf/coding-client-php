@@ -8,5 +8,8 @@
             "name": "Fwolf",
             "email": "fwolf.aide+coding-client@gmail.com"
         }
-    ]
+    ],
+    "require": {
+        "fwlib/fwlib": "dev-master"
+    }
 }
