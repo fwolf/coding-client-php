@@ -44,4 +44,19 @@ trait CurlAwareTrait
 
         return $this;
     }
+
+
+    /**
+     * Unset Curl instance
+     *
+     * Used to refresh cookie, do not forget re-assign options.
+     *
+     * @return  static
+     */
+    public function unsetCurl()
+    {
+        $this->curl = null;
+
+        return $this;
+    }
 }

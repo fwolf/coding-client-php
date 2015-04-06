@@ -35,4 +35,18 @@ class CurlAwareTraitTest extends PHPUnitTestCase
         $curlAware->setCurl($curl);
         $this->assertInstanceOf(Curl::class, $curlAware->getCurl());
     }
+
+
+    public function testUnsetCurl()
+    {
+        $curlAware = $this->buildMock();
+        $oldCurl = $curlAware->getCurl();
+        /** @noinspection PhpUndefinedFieldInspection */
+        $oldCurl->foo = 'bar';  // Make some difference
+
+        $curlAware->unsetCurl();
+        $newCurl = $curlAware->getCurl();
+
+        $this->assertNotEquals($oldCurl, $newCurl);
+    }
 }
