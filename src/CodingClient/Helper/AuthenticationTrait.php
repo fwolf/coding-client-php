@@ -41,11 +41,29 @@ trait AuthenticationTrait
     protected $password = '';
 
     /**
+     * Logged in user information array
+     *
+     * @var array
+     */
+    protected $user = null;
+
+    /**
      * Login name, 邮箱或个性后缀
      *
      * @var string
      */
     protected $username = '';
+
+
+    /**
+     * Getter of $user
+     *
+     * @return  array
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 
 
     /**
@@ -90,10 +108,14 @@ trait AuthenticationTrait
                     'password' => $this->password
                 ]
             );
+            $resultArray = json_decode($result, true);
 
-            if (empty($result) || 0 != json_decode($result, true)['code']) {
+            if (empty($result) || 0 != $resultArray['code']) {
                 throw new LoginFailException($result);
             }
+
+            $this->loggedIn = true;
+            $this->user = $resultArray['data'];
         }
 
         return $this;
