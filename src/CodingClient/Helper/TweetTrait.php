@@ -26,8 +26,6 @@ trait TweetTrait
     {
         $this->login();
 
-        $content = urlencode($content);
-
         $curl = $this->getCurl();
         $result = $curl->post(
             'tweet',
