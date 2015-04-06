@@ -89,7 +89,8 @@ class AuthenticationTraitTest extends PHPUnitTestCase
         $authTrait =
             $this->buildMockWithCurl(['getCurl'], $curl, $this->once());
 
-        $authTrait->login();
+        $user = $authTrait->login()->getUser();
+        $this->assertEquals('dummy', $user['name']);
     }
 
 
