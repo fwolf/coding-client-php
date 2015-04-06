@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<phpunit
+  backupGlobals='false'
+  backupStaticAttributes='false'
+  beStrictAboutOutputDuringTests='true'
+  beStrictAboutTestSize='true'
+  beStrictAboutTestsThatDoNotTestAnything='true'
+  bootstrap='bootstrap.php'
+  checkForUnintentionallyCoveredCode='true'
+  colors='true'
+  convertErrorsToExceptions='true'
+  convertNoticesToExceptions='true'
+  convertWarningsToExceptions='true'
+  forceCoversAnnotation='false'
+  mapTestClassNameToCoveredClassName='false'
+  processIsolation='false'
+  stopOnError='false'
+  stopOnFailure='false'
+  stopOnIncomplete='false'
+  stopOnSkipped='false'
+  timeoutForSmallTests='1000'
+  timeoutForMediumTests='3000'
+  timeoutForLargeTests='6000'
+  verbose='true'
+>
+
+  <testsuites>
+    <testsuite name='Coding Client Test Suite'>
+      <directory phpVersion='5.5.0' phpVersionOperator='>='
+        >tests/</directory>
+    </testsuite>
+  </testsuites>
+
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist='true'>
+      <directory>src/</directory>
+    </whitelist>
+  </filter>
+
+  <php>
+    <ini name='memory_limit' value='300m' />
+  </php>
+
+  <logging>
+    <log type='coverage-html' target='./coverage-html/' />
+    <log type='coverage-text' target='php://stdout' />
+  </logging>
+
+</phpunit>
