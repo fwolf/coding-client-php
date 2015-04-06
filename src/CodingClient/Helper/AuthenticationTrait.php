@@ -2,6 +2,7 @@
 namespace Fwolf\Client\Coding\Helper;
 
 use Fwlib\Net\Curl;
+use Fwolf\Client\Coding\Exception\LoginFailException;
 
 /**
  * AuthenticationTrait
@@ -26,6 +27,13 @@ trait AuthenticationTrait
     protected $captcha = '';
 
     /**
+     * Is current logged in ?
+     *
+     * @var bool
+     */
+    protected $loggedIn = null;
+
+    /**
      * Sha1 coded password
      *
      * @var string
@@ -38,6 +46,58 @@ trait AuthenticationTrait
      * @var string
      */
     protected $username = '';
+
+
+    /**
+     * Check current login status
+     *
+     * @return  bool
+     */
+    public function isLoggedIn()
+    {
+        if (is_null($this->loggedIn)) {
+            $curl = $this->getCurl();
+            $result = json_decode($curl->get('user/current_user'), true);
+
+            if (200 != $curl->getLastCode() ||
+                0 != $result['code'] |
+                empty($result['data']['name'])
+            ) {
+                $this->loggedIn = false;
+            } else {
+                $this->loggedIn = true;
+            }
+        }
+
+        return $this->loggedIn;
+    }
+
+
+    /**
+     * Do login
+     *
+     * @return  static
+     * @throws  LoginFailException
+     */
+    public function login()
+    {
+        if (!$this->loggedIn) {
+            $curl = $this->getCurl();
+            $result = $curl->post(
+                'login',
+                [
+                    'email'    => $this->username,
+                    'password' => $this->password
+                ]
+            );
+
+            if (empty($result) || 0 != json_decode($result, true)['code']) {
+                throw new LoginFailException($result);
+            }
+        }
+
+        return $this;
+    }
 
 
     /**

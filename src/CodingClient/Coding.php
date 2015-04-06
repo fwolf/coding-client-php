@@ -16,4 +16,10 @@ class Coding
 {
     use AuthenticationTrait;
     use CurlAwareTrait;
+
+
+    /**
+     * Url of api, with tailing '/'
+     */
+    const API_URL = 'https://coding.net/api/';
 }
