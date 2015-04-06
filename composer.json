@@ -16,5 +16,15 @@
     "require-dev": {
         "fwolf/phpunit-wrapper": "^1.0",
         "phpunit/phpunit": "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fwolf\\Client\\Coding\\": "src/CodingClient/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FwolfTest\\Client\\Coding\\": "tests/CodingClientTest/"
+        }
     }
 }
