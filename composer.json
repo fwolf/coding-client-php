@@ -1,0 +1,12 @@
+{
+    "name": "fwolf/coding-client",
+    "description": "PHP Client of Coding.net",
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fwolf",
+            "email": "fwolf.aide+coding-client@gmail.com"
+        }
+    ]
+}
