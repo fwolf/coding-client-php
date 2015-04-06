@@ -11,5 +11,8 @@
     ],
     "require": {
         "fwlib/fwlib": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*"
     }
 }
