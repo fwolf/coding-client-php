@@ -1,8 +1,6 @@
 <?php
 namespace Fwolf\Client\Coding\Helper;
 
-use Fwlib\Net\Curl;
-
 /**
  * CurlAwareTrait
  *

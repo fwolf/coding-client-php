@@ -1,7 +1,7 @@
 <?php
 namespace FwolfTest\Client\Coding\Helper;
 
-use Fwlib\Net\Curl;
+use Fwolf\Client\Coding\Helper\Curl;
 use Fwolf\Client\Coding\Helper\CurlAwareTrait;
 use Fwolf\Wrapper\PHPUnit\PHPUnitTestCase;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
