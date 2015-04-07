@@ -61,6 +61,8 @@ trait TweetTrait
      */
     public function uploadImage($image)
     {
+        $this->login();
+
         $curl = $this->getCurl();
         $result = $curl->post(
             'tweet/insert_image',
