@@ -52,10 +52,14 @@ class TweetTraitTest extends PHPUnitTestCase
             ->method('post')
             ->willReturn(json_encode(['code' => 0, 'data' => []]));
 
-        $methods = ['getCurl', 'getDevice', 'login'];
+        $methods = ['getCurl', 'getDevice', 'login', 'uploadImage'];
         $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
 
-        $tweetTrait->sendTweet('dummy tweet content');
+        $tweetTrait->expects($this->exactly(2))
+            ->method('uploadImage')
+            ->willReturnArgument(0);
+
+        $tweetTrait->sendTweet('dummy tweet content', ['foo', 'bar']);
     }
 
 
@@ -74,5 +78,38 @@ class TweetTraitTest extends PHPUnitTestCase
         $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
 
         $tweetTrait->sendTweet('dummy tweet content');
+    }
+
+
+    public function testUploadImage()
+    {
+        /** @var MockObject|Curl $curl */
+        $curl = $this->getMock(Curl::class, ['post']);
+        $curl->expects($this->any())
+            ->method('post')
+            ->willReturn(json_encode(['code' => 0, 'data' => []]));
+
+        $methods = ['getCurl', 'getDevice', 'login'];
+        $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
+
+        $tweetTrait->uploadImage('');
+    }
+
+
+    /**
+     * @expectedException \Fwolf\Client\Coding\Exception\UploadTweetImageFailException
+     */
+    public function testUploadImageFail()
+    {
+        /** @var MockObject|Curl $curl */
+        $curl = $this->getMock(Curl::class, ['post']);
+        $curl->expects($this->any())
+            ->method('post')
+            ->willReturn(json_encode(['code' => 1]));
+
+        $methods = ['getCurl', 'getDevice', 'login'];
+        $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
+
+        $tweetTrait->uploadImage('');
     }
 }
