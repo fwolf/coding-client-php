@@ -30,14 +30,14 @@ EOF;
             ->setAuthentication($argv[1], $argv[2]);
 
         /**
-         * Question: unsetCurl() not work, only total new Coding instance
-         * work, The curl log shown request header include 'Cookie: sid=...',
-         * but server response as not logged in.
+         * Question: renewCurlHandle() not work, only total new Coding
+         * instance work, The curl log shown request header include 'Cookie:
+         * sid=...', but server response as not logged in.
          *
          * The recreation of Coding instance works, but need a duplicate
          * login() action, and re-assign all attributes.
          */
-//        $client->unsetCurl()
+//        $client->renewCurlHandle()
 //            ->setCookieFile($cookieFile);
 
         $tweet = $client->sendTweet($argv[3], $images);

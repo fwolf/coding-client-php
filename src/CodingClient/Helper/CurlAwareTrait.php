@@ -31,6 +31,21 @@ trait CurlAwareTrait
 
 
     /**
+     * Renew curl handle
+     *
+     * Used to refresh cookie, do not forget to re-assign options.
+     *
+     * @return  static
+     */
+    public function renewCurlHandle()
+    {
+        $this->curl->renewHandle();
+
+        return $this;
+    }
+
+
+    /**
      * Setter of $curl
      *
      * Can be used to inject initialized Curl instance.
@@ -41,21 +56,6 @@ trait CurlAwareTrait
     public function setCurl(Curl $curl)
     {
         $this->curl = $curl;
-
-        return $this;
-    }
-
-
-    /**
-     * Unset Curl instance
-     *
-     * Used to refresh cookie, do not forget re-assign options.
-     *
-     * @return  static
-     */
-    public function unsetCurl()
-    {
-        $this->curl->renewHandle();
 
         return $this;
     }
