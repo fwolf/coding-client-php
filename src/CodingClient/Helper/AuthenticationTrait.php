@@ -151,4 +151,18 @@ trait AuthenticationTrait
 
         return $this;
     }
+
+
+    /**
+     * Setter of $loggedIn
+     *
+     * @param   boolean $loggedIn
+     * @return  static
+     */
+    public function setLoggedIn($loggedIn)
+    {
+        $this->loggedIn = $loggedIn;
+
+        return $this;
+    }
 }

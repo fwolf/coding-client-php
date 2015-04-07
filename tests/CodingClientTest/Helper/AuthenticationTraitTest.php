@@ -65,13 +65,13 @@ class AuthenticationTraitTest extends PHPUnitTestCase
 
         $this->assertFalse($authTrait->isLoggedIn());
 
-        $this->reflectionSet($authTrait, 'loggedIn', null);
+        $authTrait->setLoggedIn(null);
         $this->assertFalse($authTrait->isLoggedIn());
 
-        $this->reflectionSet($authTrait, 'loggedIn', null);
+        $authTrait->setLoggedIn(null);
         $this->assertFalse($authTrait->isLoggedIn());
 
-        $this->reflectionSet($authTrait, 'loggedIn', null);
+        $authTrait->setLoggedIn(null);
         $this->assertTrue($authTrait->isLoggedIn());
     }
 
