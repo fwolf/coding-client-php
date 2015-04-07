@@ -99,13 +99,13 @@ trait AuthenticationTrait
     public function login()
     {
         if (!$this->loggedIn) {
+            $username = urlencode($this->username);
+            $password = urlencode($this->password);
+
             $curl = $this->getCurl();
             $result = $curl->post(
-                'login',
-                [
-                    'email'    => $this->username,
-                    'password' => $this->password
-                ]
+                "login?email={$username}&password={$password}",
+                []
             );
             $resultArray = json_decode($result, true);
 
