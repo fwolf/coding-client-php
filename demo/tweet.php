@@ -9,10 +9,15 @@ $cookieFile = '/tmp/coding.txt';
 
 if (4 > $argc) {
     echo <<<EOF
-Usage: tweet.php UserName Sha1OfPassword TweetContent
+Usage: tweet.php UserName Sha1OfPassword TweetContent [Image1 [Image2]...]
 
 EOF;
 } else {
+    $images = [];
+    for ($i = 4; $i < $argc; $i++) {
+        $images[] = $argv[$i];
+    }
+
     try {
         $client = new Coding();
         $client->setCookieFile($cookieFile)
@@ -35,7 +40,7 @@ EOF;
 //        $client->unsetCurl()
 //            ->setCookieFile($cookieFile);
 
-        $tweet = $client->sendTweet($argv[3]);
+        $tweet = $client->sendTweet($argv[3], $images);
         echo "Tweet {$tweet['id']} sent" . PHP_EOL;
 
     } catch (LoginFailException $e) {
