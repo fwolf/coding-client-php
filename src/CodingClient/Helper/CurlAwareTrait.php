@@ -55,7 +55,7 @@ trait CurlAwareTrait
      */
     public function unsetCurl()
     {
-        $this->curl = null;
+        $this->curl->renewHandle();
 
         return $this;
     }
