@@ -56,6 +56,8 @@ trait TweetTrait
     /**
      * Upload image, got stored url
      *
+     * Coding does not allow upload file without ext, so we auto add ext.
+     *
      * @param   string  $image  File path of image
      * @return  string
      */
@@ -63,12 +65,19 @@ trait TweetTrait
     {
         $this->login();
 
+        $imageExt = pathinfo($image, PATHINFO_EXTENSION);
+        $newImageExt = empty($imageExt) ? 'jpg' : $imageExt;
+        $imageWithExt = empty($imageExt)
+            ? $image . '.' . $newImageExt
+            : $image;
+
+        $curlFile = new \CURLFile($image);
+        $curlFile->setPostFilename($imageWithExt);
+
         $curl = $this->getCurl();
         $result = $curl->post(
             'tweet/insert_image',
-            [
-                'tweetImg' => new \CURLFile($image),
-            ]
+            ['tweetImg' => $curlFile]
         );
         $resultArray = json_decode($result, true);
 
