@@ -13,6 +13,27 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 class TweetTraitTest extends PHPUnitTestCase
 {
     /**
+     * @return  int     $returnCode
+     * @return  MockObject|Curl
+     */
+    protected function buildCurlMockWithPost($returnCode)
+    {
+        $mock = $this->getMock(Curl::class, ['post']);
+        $mock->expects($this->any())
+            ->method('post')
+            ->willReturnCallback(function($url, $params) use ($returnCode) {
+                return json_encode([
+                    'code' => $returnCode,
+                    'data' => ['url' => $url, 'params' => $params]
+                ]);
+
+            });
+
+        return $mock;
+    }
+
+
+    /**
      * @param   array   $methods
      * @return MockObject | TweetTrait
      */
@@ -46,18 +67,7 @@ class TweetTraitTest extends PHPUnitTestCase
 
     public function testSendTweet()
     {
-        /** @var MockObject|Curl $curl */
-        $curl = $this->getMock(Curl::class, ['post']);
-        $curl->expects($this->any())
-            ->method('post')
-            ->willReturnCallback(function($url, $params) {
-                return json_encode([
-                    'code' => 0,
-                    'data' => ['url' => $url, 'params' => $params]
-                ]);
-
-            });
-
+        $curl = $this->buildCurlMockWithPost(0);
         $methods = ['getCurl', 'getDevice', 'login', 'uploadImage'];
         $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
 
@@ -84,12 +94,7 @@ class TweetTraitTest extends PHPUnitTestCase
      */
     public function testSendTweetFail()
     {
-        /** @var MockObject|Curl $curl */
-        $curl = $this->getMock(Curl::class, ['post']);
-        $curl->expects($this->any())
-            ->method('post')
-            ->willReturn(json_encode(['code' => 1]));
-
+        $curl = $this->buildCurlMockWithPost(1);
         $methods = ['getCurl', 'getDevice', 'login'];
         $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
 
@@ -99,18 +104,7 @@ class TweetTraitTest extends PHPUnitTestCase
 
     public function testSendTweetWithoutDevice()
     {
-        /** @var MockObject|Curl $curl */
-        $curl = $this->getMock(Curl::class, ['post']);
-        $curl->expects($this->any())
-            ->method('post')
-            ->willReturnCallback(function($url, $params) {
-                return json_encode([
-                    'code' => 0,
-                    'data' => ['url' => $url, 'params' => $params]
-                ]);
-
-            });
-
+        $curl = $this->buildCurlMockWithPost(0);
         $methods = ['getCurl', 'getDevice', 'login', 'uploadImage'];
         $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
 
@@ -124,12 +118,7 @@ class TweetTraitTest extends PHPUnitTestCase
 
     public function testUploadImage()
     {
-        /** @var MockObject|Curl $curl */
-        $curl = $this->getMock(Curl::class, ['post']);
-        $curl->expects($this->any())
-            ->method('post')
-            ->willReturn(json_encode(['code' => 0, 'data' => []]));
-
+        $curl = $this->buildCurlMockWithPost(0);
         $methods = ['getCurl', 'getDevice', 'login'];
         $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
 
@@ -142,12 +131,7 @@ class TweetTraitTest extends PHPUnitTestCase
      */
     public function testUploadImageFail()
     {
-        /** @var MockObject|Curl $curl */
-        $curl = $this->getMock(Curl::class, ['post']);
-        $curl->expects($this->any())
-            ->method('post')
-            ->willReturn(json_encode(['code' => 1]));
-
+        $curl = $this->buildCurlMockWithPost(1);
         $methods = ['getCurl', 'getDevice', 'login'];
         $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
 
