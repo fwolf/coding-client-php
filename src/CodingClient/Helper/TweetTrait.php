@@ -36,13 +36,15 @@ trait TweetTrait
             $content .= "\n![$key]($imageUrl)";
         }
 
-        $curl = $this->getCurl();
         $content = urlencode($content);
         $device = urlencode($this->getDevice());
-        $result = $curl->post(
-            "tweet?content={$content}&device={$device}",
-            []
-        );
+
+        $url = "tweet?content={$content}";
+        if (!empty($device)) {
+            $url .= "&device={$device}";
+        }
+        $curl = $this->getCurl();
+        $result = $curl->post($url, []);
         $resultArray = json_decode($result, true);
 
         if (empty($result) || 0 != $resultArray['code']) {

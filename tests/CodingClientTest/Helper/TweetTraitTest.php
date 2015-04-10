@@ -50,16 +50,32 @@ class TweetTraitTest extends PHPUnitTestCase
         $curl = $this->getMock(Curl::class, ['post']);
         $curl->expects($this->any())
             ->method('post')
-            ->willReturn(json_encode(['code' => 0, 'data' => []]));
+            ->willReturnCallback(function($url, $params) {
+                return json_encode([
+                    'code' => 0,
+                    'data' => ['url' => $url, 'params' => $params]
+                ]);
+
+            });
 
         $methods = ['getCurl', 'getDevice', 'login', 'uploadImage'];
         $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
+
+        $tweetTrait->expects($this->once())
+            ->method('getDevice')
+            ->willReturn('Android');
 
         $tweetTrait->expects($this->exactly(2))
             ->method('uploadImage')
             ->willReturnArgument(0);
 
-        $tweetTrait->sendTweet('dummy tweet content', ['foo', 'bar']);
+        $result = $tweetTrait->sendTweet('dummy tweet content', ['foo', 'bar']);
+        $this->assertStringStartsWith(
+            'tweet?content=dummy+tweet+content',
+            $result['url']
+        );
+        // In the middle is markdown of uploaded images
+        $this->assertStringEndsWith('&device=Android', $result['url']);
     }
 
 
@@ -78,6 +94,31 @@ class TweetTraitTest extends PHPUnitTestCase
         $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
 
         $tweetTrait->sendTweet('dummy tweet content');
+    }
+
+
+    public function testSendTweetWithoutDevice()
+    {
+        /** @var MockObject|Curl $curl */
+        $curl = $this->getMock(Curl::class, ['post']);
+        $curl->expects($this->any())
+            ->method('post')
+            ->willReturnCallback(function($url, $params) {
+                return json_encode([
+                    'code' => 0,
+                    'data' => ['url' => $url, 'params' => $params]
+                ]);
+
+            });
+
+        $methods = ['getCurl', 'getDevice', 'login', 'uploadImage'];
+        $tweetTrait = $this->buildMockWithCurl($methods, $curl, $this->once());
+
+        $result = $tweetTrait->sendTweet('dummy tweet content', []);
+        $this->assertEquals(
+            'tweet?content=dummy+tweet+content',
+            $result['url']
+        );
     }
 
 
