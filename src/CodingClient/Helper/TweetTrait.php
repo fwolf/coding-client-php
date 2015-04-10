@@ -17,6 +17,26 @@ use Fwolf\Client\Coding\Exception\UploadTweetImageFailException;
 trait TweetTrait
 {
     /**
+     * Parameter is url string ?
+     *
+     * When use IFTTT send mail to mailgun, the mail carry a url point to
+     * ift.tt with http header 'Location', this url point to original weibo
+     * image url with http header 'Location' too, we can use this image url
+     * directly in pp, need not upload it again.
+     *
+     * @param   string  $filename
+     * @return  bool
+     */
+    protected function isUrl($filename)
+    {
+        $filename = strtolower($filename);
+
+        return ('http://' == substr($filename, 0, 7)) ||
+            ('https://' == substr($filename, 0, 8));
+    }
+
+
+    /**
      * Send a tweet
      *
      * @param   string  $content
@@ -65,6 +85,10 @@ trait TweetTrait
      */
     public function uploadImage($image)
     {
+        if ($this->isUrl($image)) {
+            return $image;
+        }
+
         $this->login();
 
         $imageExt = pathinfo($image, PATHINFO_EXTENSION);

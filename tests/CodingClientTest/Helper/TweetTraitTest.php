@@ -137,4 +137,13 @@ class TweetTraitTest extends PHPUnitTestCase
 
         $tweetTrait->uploadImage('');
     }
+
+
+    public function testUploadImageWithUrl()
+    {
+        $tweetTrait = $this->buildMock();
+
+        $imageUrl = 'http://domain.tld/image.jpg';
+        $this->assertEquals($imageUrl, $tweetTrait->uploadImage($imageUrl));
+    }
 }
