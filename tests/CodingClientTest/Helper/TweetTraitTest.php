@@ -13,7 +13,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 class TweetTraitTest extends PHPUnitTestCase
 {
     /**
-     * @return  int     $returnCode
+     * @param   int     $returnCode
      * @return  MockObject|Curl
      */
     protected function buildCurlMockWithPost($returnCode)
