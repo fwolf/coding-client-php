@@ -82,6 +82,7 @@ trait TweetTrait
      *
      * @param   string  $image  File path of image
      * @return  string
+     * @throws  UploadTweetImageFailException
      */
     public function uploadImage($image)
     {
